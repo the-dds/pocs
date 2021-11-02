@@ -1,53 +1,77 @@
-In 2021 we've started looking at the [OMG Data Distribution Service (DDS)](https://www.omg.org/dds-directory/) standards and its implementations from a security angle. This page contains a summary of our work.
+# Securing DDS
+
+In 2021 we've started looking at the [OMG Data Distribution Service (DDS)](https://www.omg.org/dds-directory/) standards and its implementations from a security angle. This website is intended to host material in support to our conference talks.
 
 Being DDS an little-discussed by critical technology, in the light of our findings we encourage other researchers, DDS users and implementors to contribute to increasing its security and community awareness.
-- [What is DDS?](#what-is-dds)
-- [DDS Standards and Implementations](#dds-standards-and-implementations)
-- [Who Uses DDS?](#who-uses-dds)
-- [What are the Findings?](#what-are-the-findings)
-	- [Network Attack Surface](#network-attack-surface)
-	- [Configuration Files Attack Surface](#configuration-files-attack-surface)
-	- [Fuzzing Network Deserialization](#fuzzing-network-deserialization)
-- [PoCs](#pocs)
-- [Talks and Publications](#talks-and-publications)
-- [Who we are?](#who-we-are)
-- [Advisories](#advisories)
 
-# What is DDS?
+- [Securing DDS](#securing-dds)
+  - [What is DDS?](#what-is-dds)
+  - [DDS Standards and Implementations](#dds-standards-and-implementations)
+  - [Who Uses DDS?](#who-uses-dds)
+  - [What are the Findings?](#what-are-the-findings)
+  - [Network Attack Surface](#network-attack-surface)
+  - [Configuration Files Attack Surface](#configuration-files-attack-surface)
+  - [Continuous Fuzzing](#continuous-fuzzing)
+  - [PoCs](#pocs)
+  - [Talks and Publications](#talks-and-publications)
+  - [Who we are?](#who-we-are)
+  - [Advisories](#advisories)
+
+## What is DDS?
 
 DDS is a middleware technology that enables crucial technologies like autonomous driving, healthcare machinery, military tactical systems, or missile launch stations. Designed around industrial-level requirements, DDS sits deep in the control network, allowing an arbitrary number of endpoints like sensors or actuators to communicate transparently, with an abstract API based on familiar data type specifications (e.g., C structs) and simple function calls, regardless of the complexity of the data.
 
-```C
-Snippet
+```C++
+using namespace org::eclipse::cyclonedds;
+
+int main()
+{
+  dds::domain::DomainParticipant participant(0);
+  dds::pub::Publisher publisher(participant));
+  dds::topic::Topic<HelloWorld> topic(participant, "HelloWorld");
+  dds::pub::DataWriter<HelloWorld> writer(publisher, topic);
+  
+  unsigned i = 0;
+  while (true)
+  {
+    HelloWorld msg(i++, "Hello, world!");
+    writer << msg;
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+  }
+  
+  return 0;
+}
 ```
 
-# DDS Standards and Implementations
+## DDS Standards and Implementations
 
 The OMG Data-Distribution Service for Real-Time Systems® (DDS®) is the first open international middleware standard directly addressing publish-subscribe communications for real-time and embedded systems.
 
-- Specifications: https://www.dds-foundation.org/omg-dds-standard/
+- Specifications: <https://www.dds-foundation.org/omg-dds-standard/>
 
 Focusing on [OMG members vendors](https://www.omg.org/dds-directory/vendor/list.htm), we looked at the 3 most popular open-source implementations:
 
-- Fast-DDS by eProsima: https://github.com/eProsima/Fast-DDS
-- OpenDDS by OCI: https://github.com/objectcomputing/OpenDDS
-- CycloneDDS by Eclipse (ADLINK): https://github.com/eclipse-cyclonedds/cyclonedds
+- [Fast-DDS](https://github.com/eProsima/Fast-DDS) by [eProsima](https://www.eprosima.com/)
+- [OpenDDS](https://github.com/objectcomputing/OpenDDS) by [OCI](https://objectcomputing.com/)
+- [CycloneDDS](https://github.com/eclipse-cyclonedds/cyclonedds) by [Eclipse](https://www.eclipse.org) ([ADLINK](https://www.adlinktech.com/))
 
 and the 3 most popular commercial distributions:
 
-- ConnexDDS by RTI:
-  - https://www.rti.com/free-trial
-  - https://github.com/rticommunity/rticonnextdds-examples
-- GurumDDS by Gurum Networks: https://www.gurum.cc/freetrial
-- CoreDX DDS by Twin Oaks Computing: http://www.twinoakscomputing.com/coredx/download
+- ConnextDDS by RTI:
+  - [ConnextDDS](https://www.rti.com/free-trial)
+  - [RTI ConnextDDS Connectors](https://github.com/rticommunity/rticonnextdds-connector)
+- [GurumDDS](https://www.gurum.cc/freetrial) by Gurum Networks
+- [CoreDX DDS](http://www.twinoakscomputing.com/coredx/download) by Twin Oaks Computing
 
-# Who Uses DDS?
+## Who Uses DDS?
 
-Notably, DDS is used by NASA at the KSC, by SIEMENS for smart grid applications, by Volkswagen and Bosch for autonomous valet parking systems, by NAV CANADA for ATC, and by the Robot Operating System 2 (ROS2) to control industrial and consumer robots.
+Notably, DDS is used by [NASA at the KSC](https://www.omgwiki.org/ddsf/doku.php?id=ddsf:public:applications:aerospace_and_defense:nasa_launch_and_control_systems), by SIEMENS for smart grid applications, by Volkswagen and Bosch for autonomous valet parking systems, by NAV CANADA for ATC, and by the Robot Operating System 2 (ROS2) to control industrial and consumer robots.
+
+DDS is the foundation of other industry standards including [OpenFMB](https://openfmb.ucaiug.org/), [Adaptive AUTOSAR](https://www.autosar.org/), [MD PnP](https://mdpnp.org/), [GVA](https://www.slideshare.net/RealTimeInnovations/generic-vehicle-architecture-dds-at-the-core), [NGVA](https://www.natogva.org/), and [ROS 2](https://design.ros2.org/articles/ros_on_dds.html).
 
 Other applications are listed in the [DDS Foundation Wiki](https://www.omgwiki.org/ddsf/doku.php?id=ddsf:public:applications:start).
 
-# What are the Findings?
+## What are the Findings?
 
 We found vulnerabilities in the OMG specifications and in most of the implementations, both closed and open source. We release part of the code that helped us run our research project.
 
@@ -59,38 +83,38 @@ Being DDS mainly a network-based protocol, the network is also the main attack s
 
 DDS configuration is highly dependent on XML, JSON, YAML, or similar formats, which make them another attack vector. By writing a Radamsa-based file fuzzer we found various parsing vulnerabilities (CVE-2021-38437, CVE-2021-38441, CVE-2021-38443, CVE-2021-38427, CVE-2021-38433) as well as one of the implementations using an old, unmaintained and vulnerable XML library (CVE-2021-38437), so an attacker can use a malicious configuration file to gain initial access.
 
-## Fuzzing Network Deserialization 
+## Continuous Fuzzing
 
-We focus on fuzzing the message interpretation routines in all implementations, how to pick good fuzz targets, and prepare them for popular frameworks like OSS-Fuzz and UnicornAFL (for closed-source implementations).
+We focus on fuzzing the message interpretation routines and configuration parsing in all implementations, how to pick good fuzz targets, and prepare them for popular frameworks like OSS-Fuzz and UnicornAFL (for closed-source implementations).
 
-We're working on releasing fuzzers into OSS-Fuzz for the following implemetations:
+We're working on releasing fuzzers into OSS-Fuzz for the following implementations:
 
-- Fast-DDS: https://github.com/eProsima/Fast-DDS/tree/master/fuzz
-- CycloneDDS: https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds
+- Fast-DDS: [https://github.com/eProsima/Fast-DDS/tree/master/fuzz](https://github.com/eProsima/Fast-DDS/tree/master/fuzz)
+- CycloneDDS: [https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds](https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds)
 - OpenDDS: WIP
 
-# PoCs
+## PoCs
 
 Coming soon
 
-# Talks and Publications
+## Talks and Publications
 
 - [Black Hat Europe 2021](https://www.blackhat.com/eu-21/briefings/schedule/index.html#the-data-distribution-service-dds-protocol-is-critical-lets-use-it-securely-24934), The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely! *Nov 11th, 2021, London, UK.*
 - [S4x22](https://s4xevents.com/speakers/), A Security Deep Dive Into The DDS Protocol. *Jan 27th, 2022, Miami, FL, USA.*
 
-# Who we are?
+## Who we are?
 
 Trend Micro Research has been leading this research, with the invaluable contribution of a great team, comprising researchers and experts from various realms.
 
-- Ta-Lun Yen, Threat Researcher, [TXOne Networks](https://www.txone-networks.com/)
+- [Ta-Lun Yen](https://twitter.com/evanslify/), Threat Researcher, [TXOne Networks](https://www.txone-networks.com/)
 - [Federico Maggi](https://maggi.cc), Senior Researcher, [Trend Micro Research](https://www.trendmicro.com/en_us/research.html)
-- Erik Boasson, Senior Technologist and lead [CycloneDDS](https://github.com/eclipse-cyclonedds/cyclonedds) developer, [ADLINK Technology](https://www.adlinktech.com/)
+- [Erik Boasson](https://github.com/eboasson), Senior Technologist and lead [CycloneDDS](https://github.com/eclipse-cyclonedds/cyclonedds) developer, [ADLINK Technology](https://www.adlinktech.com/)
 - [Victor Mayoral-Vilches](https://cybersecurityrobotics.net/author/victor/), Robotics Security Researcher, [Alias Robotics](https://aliasrobotics.com)
 - [Mars Cheng](https://mars-cheng.github.io/blog/about/), Threat Researcher, [TXOne Networks](https://www.txone-networks.com/)
 - Patrick Kuo, Threat Researcher, [TXOne Networks](https://www.txone-networks.com/)
-- Chizuru Toyama, Staff Engineer, [TXOne Networks](https://www.txone-networks.com/)
+- [Chizuru Toyama](https://www.linkedin.com/in/chizuru-toyama-0a070427/), Staff Engineer, [TXOne Networks](https://www.txone-networks.com/)
 
-# Advisories
+## Advisories
 
 | CVE            | Scope              | CWE      | Notes                     |
 |----------------|--------------------|----------|---------------------------|
@@ -99,7 +123,7 @@ Trend Micro Research has been leading this research, with the invaluable contrib
 | CVE-2021-38429 | OCI OpenDDS        |          | Patched                   |
 | N/A            | Eclipse CycloneDDS |          | Already mitigated         |
 | N/A            | GurumDDS           |          | Already mitigated         |
-| N/A            | eProsima Fast-DDS  |          | [WIP Mitigation](https://github.com/eProsima/Fast-DDS/issues/2267)     | 
+| N/A            | eProsima Fast-DDS  |          | [WIP Mitigation](https://github.com/eProsima/Fast-DDS/issues/2267)     |
 | N/A            | Twin Oaks CoreDX   |          | WIP Mitigation            |
 | CVE-2021-38445 | OCI OpenDDS        | CWE-130  | Failed assertion          |
 | CVE-2021-38447 | OCI OpenDDS        | CWE-405  | Resource exhaustion       |
