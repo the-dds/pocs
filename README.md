@@ -6,6 +6,9 @@ This repository is intended to host material in support to our conference talks.
 - [Black Hat Europe 2021](https://www.blackhat.com/eu-21/briefings/schedule/index.html#the-data-distribution-service-dds-protocol-is-critical-lets-use-it-securely-24934), The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely! *Nov 11th, 2021, London, UK.*
 - [ROS Industrial Conference 2021](https://rosindustrial.org/events/2021/12/1/ros-industrial-conference-2021), Breaking ROS 2 security assumptions: Targeting the top 6 DDS implementations. *Dec 1-2, 2021, Fraunhofer IPA, Stuttgart, Germany*
 - [S4x22](https://s4xevents.com/speakers/), A Security Deep Dive Into The DDS Protocol. *Jan 27th, 2022, Miami, FL, USA.*
+## PoCs
+
+Coming soon
 
 ---
 
@@ -15,6 +18,7 @@ This repository is intended to host material in support to our conference talks.
 
 - [Securing DDS](#securing-dds)
   - [Talks and Publications](#talks-and-publications)
+  - [PoCs](#pocs)
   - [What is DDS?](#what-is-dds)
   - [DDS Standards and Implementations](#dds-standards-and-implementations)
   - [Who Uses DDS?](#who-uses-dds)
@@ -22,7 +26,6 @@ This repository is intended to host material in support to our conference talks.
   - [Network Attack Surface](#network-attack-surface)
   - [Configuration Files Attack Surface](#configuration-files-attack-surface)
   - [Continuous Fuzzing](#continuous-fuzzing)
-  - [PoCs](#pocs)
   - [Who we are?](#who-we-are)
   - [Advisories](#advisories)
 
@@ -101,10 +104,6 @@ We're working on releasing fuzzers into OSS-Fuzz for the following implementatio
 - Fast-DDS: [https://github.com/eProsima/Fast-DDS/tree/master/fuzz](https://github.com/eProsima/Fast-DDS/tree/master/fuzz)
 - CycloneDDS: [https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds](https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds)
 - OpenDDS: WIP
-
-## PoCs
-
-Coming soon
 
 ## Who we are?
 
