@@ -4,6 +4,7 @@ This repository is intended to host material in support to our conference talks.
 ## Talks and Publications
 
 - [Black Hat Europe 2021](https://www.blackhat.com/eu-21/briefings/schedule/index.html#the-data-distribution-service-dds-protocol-is-critical-lets-use-it-securely-24934), The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely! *Nov 11th, 2021, London, UK.*
+- [ROS Industrial Conference 2021](https://rosindustrial.org/events/2021/12/1/ros-industrial-conference-2021), Breaking ROS 2 security assumptions: Targeting the top 6 DDS implementations. *Dec 1-2, 2021, Fraunhofer IPA, Stuttgart, Germany*
 - [S4x22](https://s4xevents.com/speakers/), A Security Deep Dive Into The DDS Protocol. *Jan 27th, 2022, Miami, FL, USA.*
 
 ---
