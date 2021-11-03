@@ -122,13 +122,16 @@ Trend Micro Research has been leading this research, with the invaluable contrib
 
 | CVE            | Scope              | CWE      | Notes                     |
 |----------------|--------------------|----------|---------------------------|
-|                | **OMG (specs)**    | **CWE-406**  | **Network reflection**        |
-| CVE-2021-38487 | RTI ConnextDDS     |          | Patched                   |
-| CVE-2021-38429 | OCI OpenDDS        |          | Patched                   |
-| N/A            | Eclipse CycloneDDS |          | Already mitigated         |
-| N/A            | GurumDDS           |          | Already mitigated         |
-| N/A            | eProsima Fast-DDS  |          | [WIP Mitigation](https://github.com/eProsima/Fast-DDS/issues/2267)     |
-| N/A            | Twin Oaks CoreDX   |          | WIP Mitigation            |
+| -              | **OMG (specs)**    | **CWE-406**  | **Network reflection**        |
+| CVE-2021-38487 | RTI ConnextDDS     | CWE-406  | Patched                   |
+| CVE-2021-38429 | OCI OpenDDS        | CWE-406  | Patched                   |
+| -              | Eclipse CycloneDDS | -        | Mitigated natively        |
+| -              | GurumDDS           | -        | Mitigated natively        |
+| Requested      | eProsima Fast-DDS  | CWE-406  | [WIP mitigation](https://github.com/eProsima/Fast-DDS/issues/2267)     |
+| Requested      | Twin Oaks CoreDX   | CWE-406  | WIP mitigation            |
+
+| CVE            | Scope              | CWE      | Notes                     |
+|----------------|--------------------|----------|---------------------------|
 | CVE-2021-38445 | OCI OpenDDS        | CWE-130  | Failed assertion          |
 | CVE-2021-38447 | OCI OpenDDS        | CWE-405  | Resource exhaustion       |
 | CVE-2021-38435 | RTI ConnextDDS     | CWE-131  | Seg.fault via network     |
