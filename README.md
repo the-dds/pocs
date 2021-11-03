@@ -1,10 +1,19 @@
 # Securing DDS
 
-In 2021 we've started looking at the [OMG Data Distribution Service (DDS)](https://www.omg.org/dds-directory/) standards and its implementations from a security angle. This website is intended to host material in support to our conference talks.
+This repository is intended to host material in support to our conference talks.
+## Talks and Publications
 
-Being DDS an little-discussed by critical technology, in the light of our findings we encourage other researchers, DDS users and implementors to contribute to increasing its security and community awareness.
+- [Black Hat Europe 2021](https://www.blackhat.com/eu-21/briefings/schedule/index.html#the-data-distribution-service-dds-protocol-is-critical-lets-use-it-securely-24934), The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely! *Nov 11th, 2021, London, UK.*
+- [S4x22](https://s4xevents.com/speakers/), A Security Deep Dive Into The DDS Protocol. *Jan 27th, 2022, Miami, FL, USA.*
+
+---
+
+**In 2021 we've started looking at the [OMG Data Distribution Service (DDS)](https://www.omg.org/dds-directory/) standards and its implementations from a security angle. Being DDS a little-discussed yet critical technology, in the light of our findings we encourage other researchers, DDS users and implementors to promote security awareness about DDS and its ecosystem.**
+
+---
 
 - [Securing DDS](#securing-dds)
+  - [Talks and Publications](#talks-and-publications)
   - [What is DDS?](#what-is-dds)
   - [DDS Standards and Implementations](#dds-standards-and-implementations)
   - [Who Uses DDS?](#who-uses-dds)
@@ -13,13 +22,14 @@ Being DDS an little-discussed by critical technology, in the light of our findin
   - [Configuration Files Attack Surface](#configuration-files-attack-surface)
   - [Continuous Fuzzing](#continuous-fuzzing)
   - [PoCs](#pocs)
-  - [Talks and Publications](#talks-and-publications)
   - [Who we are?](#who-we-are)
   - [Advisories](#advisories)
 
+---
+
 ## What is DDS?
 
-DDS is a middleware technology that enables crucial technologies like autonomous driving, healthcare machinery, military tactical systems, or missile launch stations. Designed around industrial-level requirements, DDS sits deep in the control network, allowing an arbitrary number of endpoints like sensors or actuators to communicate transparently, with an abstract API based on familiar data type specifications (e.g., C structs) and simple function calls, regardless of the complexity of the data.
+DDS is a middleware technology that enables crucial technologies like [autonomous driving](https://www.rti.com/blog/2016/02/24/dds-proof-points-for-autonomous-cars/), [healthcare machinery](https://www.rti.com/ge2015dec), military tactical systems, or [missile launch stations](https://www.aerospacetestinginternational.com/news/products-services/orion-prepares-for-space-with-advanced-data-acquisition-system.html). Designed around industrial-level requirements, DDS sits deep in the control network, allowing an arbitrary number of endpoints like sensors or actuators to communicate transparently, with an abstract API based on familiar data type specifications (e.g., C structs) and simple function calls, regardless of the complexity of the data.
 
 ```C++
 using namespace org::eclipse::cyclonedds;
@@ -45,9 +55,7 @@ int main()
 
 ## DDS Standards and Implementations
 
-The OMG Data-Distribution Service for Real-Time Systems® (DDS®) is the first open international middleware standard directly addressing publish-subscribe communications for real-time and embedded systems.
-
-- Specifications: <https://www.dds-foundation.org/omg-dds-standard/>
+The OMG Data-Distribution Service for Real-Time Systems® (DDS®) is the first open international middleware standard directly addressing publish-subscribe communications for real-time and embedded systems. The DDS [specifications](https://www.dds-foundation.org/omg-dds-standard/) are public.
 
 Focusing on [OMG members vendors](https://www.omg.org/dds-directory/vendor/list.htm), we looked at the 3 most popular open-source implementations:
 
@@ -96,11 +104,6 @@ We're working on releasing fuzzers into OSS-Fuzz for the following implementatio
 ## PoCs
 
 Coming soon
-
-## Talks and Publications
-
-- [Black Hat Europe 2021](https://www.blackhat.com/eu-21/briefings/schedule/index.html#the-data-distribution-service-dds-protocol-is-critical-lets-use-it-securely-24934), The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely! *Nov 11th, 2021, London, UK.*
-- [S4x22](https://s4xevents.com/speakers/), A Security Deep Dive Into The DDS Protocol. *Jan 27th, 2022, Miami, FL, USA.*
 
 ## Who we are?
 
