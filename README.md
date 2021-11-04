@@ -84,9 +84,9 @@ Focusing on [OMG members vendors](https://www.omg.org/dds-directory/vendor/list.
 
 ## Who Uses DDS?
 
-Notably, DDS is the aerospace standard, it is used by [NASA at the KSC](https://www.omgwiki.org/ddsf/doku.php?id=ddsf:public:applications:aerospace_and_defense:nasa_launch_and_control_systems), by SIEMENS for smart grid applications, by Volkswagen and Bosch for autonomous valet parking systems, by NAV CANADA for ATC, by iRobot in your vacuum and most importantly, by the Robot Operating System 2 (ROS 2)[^1], which means, most future robots will be powered by it.
+Notably, DDS is the aerospace standard, it is used by [NASA at the KSC](https://www.omgwiki.org/ddsf/doku.php?id=ddsf:public:applications:aerospace_and_defense:nasa_launch_and_control_systems), by SIEMENS for smart grid applications, by Volkswagen and Bosch for autonomous valet parking systems, by NAV CANADA for ATC, by iRobot in your vacuum and most importantly, by the Robot Operating System 2 (ROS 2)[^2], which means, most future robots will be powered by it.
 
-[^1]: [ROS](https://ros.org/) is the *de facto* standard for robot application development (the ultimate *robotics SDK*) a set of software libraries and tools that help you build robot applications.
+[^2]: [ROS](https://ros.org/) is the *de facto* standard for robot application development (the ultimate *robotics SDK*) a set of software libraries and tools that help you build robot applications.
 
 DDS is the foundation of other industry standards including [OpenFMB](https://openfmb.ucaiug.org/), [Adaptive AUTOSAR](https://www.autosar.org/), [MD PnP](https://mdpnp.org/), [GVA](https://www.slideshare.net/RealTimeInnovations/generic-vehicle-architecture-dds-at-the-core), [NGVA](https://www.natogva.org/), and [ROS 2](https://design.ros2.org/articles/ros_on_dds.html).
 
@@ -106,9 +106,11 @@ We focus on fuzzing the message interpretation routines and configuration parsin
 
 We're working on releasing fuzzers into OSS-Fuzz for the following implementations:
 
-- Fast-DDS: [https://github.com/eProsima/Fast-DDS/tree/master/fuzz](https://github.com/eProsima/Fast-DDS/tree/master/fuzz)
+- Fast-DDS: [https://github.com/eProsima/Fast-DDS/tree/master/fuzz](https://github.com/eProsima/Fast-DDS/tree/master/fuzz) [^3]
 - CycloneDDS: [https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds](https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds)
 - OpenDDS: WIP
+
+[^3]: The first integration of Fast-DDS into OSS-Fuzz was done spontaneously by Philippe Antoine ([@catenacyber](https://github.com/catenacyber)).
 
 ## Who are we?
 
