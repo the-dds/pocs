@@ -1,11 +1,13 @@
 # Securing DDS
 
 This repository is intended to host material in support to our conference talks.
+
 ## Talks and Publications
 
 - [Black Hat Europe 2021](https://www.blackhat.com/eu-21/briefings/schedule/index.html#the-data-distribution-service-dds-protocol-is-critical-lets-use-it-securely-24934), The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely! *Nov 11th, 2021, London, UK.*
 - [ROS Industrial Conference 2021](https://rosindustrial.org/events/2021/12/1/ros-industrial-conference-2021), Breaking ROS 2 security assumptions: Targeting the top 6 DDS implementations. *Dec 1-2, 2021, Fraunhofer IPA, Stuttgart, Germany*
 - [S4x22](https://s4xevents.com/speakers/), A Security Deep Dive Into The DDS Protocol. *Jan 27th, 2022, Miami, FL, USA.*
+
 ## PoCs
 
 Coming soon
@@ -26,7 +28,7 @@ Coming soon
   - [Network Attack Surface](#network-attack-surface)
   - [Configuration Files Attack Surface](#configuration-files-attack-surface)
   - [Continuous Fuzzing](#continuous-fuzzing)
-  - [Who we are?](#who-we-are)
+  - [Who are we?](#who-are-we)
   - [Advisories](#advisories)
 
 ---
@@ -44,7 +46,7 @@ int main()
   dds::pub::Publisher publisher(participant));
   dds::topic::Topic<HelloWorld> topic(participant, "HelloWorld");
   dds::pub::DataWriter<HelloWorld> writer(publisher, topic);
-  
+
   unsigned i = 0;
   while (true)
   {
@@ -52,7 +54,7 @@ int main()
     writer << msg;
     std::this_thread::sleep_for(std::chrono::seconds(1));
   }
-  
+
   return 0;
 }
 ```
@@ -61,23 +63,25 @@ int main()
 
 The OMG Data-Distribution Service for Real-Time Systems® (DDS®) is the first open international middleware standard directly addressing publish-subscribe communications for real-time and embedded systems. The DDS [specifications](https://www.dds-foundation.org/omg-dds-standard/) are public.
 
-Focusing on [OMG members vendors](https://www.omg.org/dds-directory/vendor/list.htm), we looked at the 3 most popular open-source implementations:
+Focusing on [OMG members vendors](https://www.omg.org/dds-directory/vendor/list.htm), we looked at the 6 most popular implementations,:
 
-- [Fast-DDS](https://github.com/eProsima/Fast-DDS) by [eProsima](https://www.eprosima.com/)
-- [OpenDDS](https://github.com/objectcomputing/OpenDDS) by [OCI](https://objectcomputing.com/)
-- [CycloneDDS](https://github.com/eclipse-cyclonedds/cyclonedds) by [Eclipse](https://www.eclipse.org) ([ADLINK](https://www.adlinktech.com/))
+- Open source
+  - [Fast-DDS](https://github.com/eProsima/Fast-DDS) by [eProsima](https://www.eprosima.com/)
+  - [OpenDDS](https://github.com/objectcomputing/OpenDDS) by [OCI](https://objectcomputing.com/)
+  - [CycloneDDS](https://github.com/eclipse-cyclonedds/cyclonedds) by [Eclipse](https://www.eclipse.org) ([ADLINK](https://www.adlinktech.com/))
 
-and the 3 most popular commercial distributions:
-
-- ConnextDDS by RTI:
-  - [ConnextDDS](https://www.rti.com/free-trial)
-  - [RTI ConnextDDS Connectors](https://github.com/rticommunity/rticonnextdds-connector)
-- [GurumDDS](https://www.gurum.cc/freetrial) by Gurum Networks
-- [CoreDX DDS](http://www.twinoakscomputing.com/coredx/download) by Twin Oaks Computing
+- Proprietary software:
+  - ConnextDDS by [RTI]((https://www.rti.com):
+    - [ConnextDDS](https://www.rti.com/free-trial)
+    - [RTI ConnextDDS Connectors](https://github.com/rticommunity/rticonnextdds-connector)
+  - [GurumDDS](https://www.gurum.cc/freetrial) by [Gurum Networks](https://www.gurum.cc/home)
+  - [CoreDX DDS](http://www.twinoakscomputing.com/coredx/download) by [Twin Oaks Computing](http://www.twinoakscomputing.com/)
 
 ## Who Uses DDS?
 
-Notably, DDS is used by [NASA at the KSC](https://www.omgwiki.org/ddsf/doku.php?id=ddsf:public:applications:aerospace_and_defense:nasa_launch_and_control_systems), by SIEMENS for smart grid applications, by Volkswagen and Bosch for autonomous valet parking systems, by NAV CANADA for ATC, and by the Robot Operating System 2 (ROS2) to control industrial and consumer robots.
+Notably, DDS is the aerospace standard, it is used by [NASA at the KSC](https://www.omgwiki.org/ddsf/doku.php?id=ddsf:public:applications:aerospace_and_defense:nasa_launch_and_control_systems), by SIEMENS for smart grid applications, by Volkswagen and Bosch for autonomous valet parking systems, by NAV CANADA for ATC, by iRobot in your vacuum and most importantly, by the Robot Operating System 2 (ROS 2)[^1], which means, most future robots will be powered by it.
+
+[^1]: [ROS](https://ros.org/) is the *de facto* standard for robot application development (the ultimate *robotics SDK*) a set of software libraries and tools that help you build robot applications.
 
 DDS is the foundation of other industry standards including [OpenFMB](https://openfmb.ucaiug.org/), [Adaptive AUTOSAR](https://www.autosar.org/), [MD PnP](https://mdpnp.org/), [GVA](https://www.slideshare.net/RealTimeInnovations/generic-vehicle-architecture-dds-at-the-core), [NGVA](https://www.natogva.org/), and [ROS 2](https://design.ros2.org/articles/ros_on_dds.html).
 
@@ -85,7 +89,28 @@ Other applications are listed in the [DDS Foundation Wiki](https://www.omgwiki.o
 
 ## What are the Findings?
 
-We found vulnerabilities in the OMG specifications and in most of the implementations, both closed and open source. We release part of the code that helped us run our research project.
+We found vulnerabilities in the OMG specifications and in most of the implementations, both closed and open source. In total, we found **12 vulnerabilities with assigned CVE IDs that spread across the most popular DDS implementations**. We release part of the code that helped us run our research project and proposed an RTPS dissector in the form of a [Scapy layer to dissect and forge RTPS frames](https://github.com/secdev/scapy/pull/3403), so that other researchers can experiment with DDS themselves.
+
+Here's a short summary:
+
+| CVE ID            | Scope              | CWE      | Notes                     |
+|----------------|--------------------|----------|---------------------------|
+| CVE-2021-38487 | ConnextDDS     | CWE-406  | Patched                   |
+| CVE-2021-38429 | OpenDDS        | CWE-406  | Patched                   |
+| CVE-2021-38445 | OpenDDS        | CWE-130  | Failed assertion          |
+| CVE-2021-38447 | OpenDDS        | CWE-405  | Resource exhaustion       |
+| CVE-2021-38435 | ConnextDDS     | CWE-131  | Seg.fault via network     |
+| CVE-2021-38423 | GurumDDS           | CWE-131  | Seg.fault via network     |
+| CVE-2021-38439 | GurumDDS           | CWE-122  | Heap-overflow via network |
+| CVE-2021-38437 | GurumDDS           | CWE-1104 | Unmaintained XML lib.     |
+| CVE-2021-38441 | CycloneDDS         | CWE-123  | Heap-write in XML parser  |
+| CVE-2021-38443 | CycloneDDS         | CWE-228  | 8-bytes heap-write in XML parser        |
+| CVE-2021-38427 | RTI ConnextDDS     | CWE-121  | Stack overflow in XML parser |
+| CVE-2021-38433 | RTI ConnextDDS     | CWE-121  | Stack overflow in XML parser |
+| | | |
+| Requested      | eProsima Fast-DDS  | CWE-406  | [WIP mitigation](https://github.com/eProsima/Fast-DDS/issues/2267)     |
+| Requested      | Twin Oaks CoreDX   | CWE-406  | WIP mitigation            |
+
 
 ## Network Attack Surface
 
@@ -105,14 +130,14 @@ We're working on releasing fuzzers into OSS-Fuzz for the following implementatio
 - CycloneDDS: [https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds](https://github.com/google/oss-fuzz/tree/master/projects/cyclonedds)
 - OpenDDS: WIP
 
-## Who we are?
+## Who are we?
 
 Trend Micro Research has been leading this research, with the invaluable contribution of a great team, comprising researchers and experts from various realms.
 
 - [Ta-Lun Yen](https://twitter.com/evanslify/), Threat Researcher, [TXOne Networks](https://www.txone-networks.com/)
 - [Federico Maggi](https://maggi.cc), Senior Researcher, [Trend Micro Research](https://www.trendmicro.com/en_us/research.html)
 - [Erik Boasson](https://github.com/eboasson), Senior Technologist and lead [CycloneDDS](https://github.com/eclipse-cyclonedds/cyclonedds) developer, [ADLINK Technology](https://www.adlinktech.com/)
-- [Victor Mayoral-Vilches](https://cybersecurityrobotics.net/author/victor/), Robotics Security Researcher, [Alias Robotics](https://aliasrobotics.com)
+- [Víctor Mayoral-Vilches](https://cybersecurityrobotics.net/author/victor/), Robotics Security Researcher, [Alias Robotics](https://aliasrobotics.com)
 - [Mars Cheng](https://mars-cheng.github.io/blog/about/), Threat Researcher, [TXOne Networks](https://www.txone-networks.com/)
 - Patrick Kuo, Threat Researcher, [TXOne Networks](https://www.txone-networks.com/)
 - [Chizuru Toyama](https://www.linkedin.com/in/chizuru-toyama-0a070427/), Staff Engineer, [TXOne Networks](https://www.txone-networks.com/)
