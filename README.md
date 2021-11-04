@@ -1,8 +1,9 @@
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/GFiWgJ03_TI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-This page does not represent official content released by our employers. This page is merely intendend as an aggregator of public information about our research.
+[![The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely!](i.png)](https://www.youtube.com/watch?v=GFiWgJ03_TI)
 
-## The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely!
+## The Data Distribution Service (DDS) Protocol is Critical: Let's Use it Securely! [^1]
+
+[^1]: This page does not represent official content released by our employers. This page is merely intendend as an aggregator of public information about our research.
 
 We found **12 vulnerabilities** across the top 6 DDS implementations, both closed and open source, plus **1 vulnerability in the standard** specifications.
 
