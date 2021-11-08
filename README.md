@@ -29,7 +29,7 @@ The following table refers to the spec-level vulnerability.
 | Not applicable | OMG DDSI-RTPS 2.5  | CWE-406  | WIP spec. revision |
 | CVE-2021-38487 | ConnextDDS     | CWE-406  | [Mitigation patch in >= 6.1.0](https://community.rti.com/kb/ics-cert-security-notice-ics-vu-575352-vu770071) |
 | CVE-2021-38429 | OpenDDS        | CWE-406  | [Mitigation patch in >= 3.18.1](https://github.com/objectcomputing/OpenDDS/releases/tag/DDS-3.18.1) |
-| Requested      | eProsima Fast-DDS  | CWE-406  | [WIP mitigation](https://github.com/eProsima/Fast-DDS/issues/2267)     |
+| CVE-2021-38425      | eProsima Fast-DDS  | CWE-406  | [WIP mitigation](https://github.com/eProsima/Fast-DDS/issues/2267)     |
 | Requested      | Twin Oaks CoreDX   | CWE-406  | WIP mitigation            |
 
 ## Talks and Publications
