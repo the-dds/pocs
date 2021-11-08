@@ -9,28 +9,28 @@ We found **12 vulnerabilities** across the top 6 DDS implementations, both close
 
 We release part of the code that helped us run our research project and we're still working with the standard maintainer, possibly to revise the specifications.
 
-| CVE ID            | Scope              | CWE      | Notes                     |
-|----------------|--------------------|----------|---------------------------|
-| CVE-2021-38445 | OpenDDS        | CWE-130  | Failed assertion              |
-| CVE-2021-38447 | OpenDDS        | CWE-405  | Resource exhaustion           |
-| CVE-2021-38435 | ConnextDDS     | CWE-131  | Seg.fault via network         |
-| CVE-2021-38423 | GurumDDS           | CWE-131  | Seg.fault via network     |
-| CVE-2021-38439 | GurumDDS           | CWE-122  | Heap-overflow via network |
-| CVE-2021-38437 | GurumDDS           | CWE-1104 | Unmaintained XML lib.     |
-| CVE-2021-38441 | CycloneDDS         | CWE-123  | Heap-write in XML parser  |
-| CVE-2021-38443 | CycloneDDS         | CWE-228  | 8-bytes heap-write in XML parser        |
-| CVE-2021-38427 | RTI ConnextDDS     | CWE-121  | Stack overflow in XML parser |
-| CVE-2021-38433 | RTI ConnextDDS     | CWE-121  | Stack overflow in XML parser |
+| CVE ID         | Scope              | CWE      | CVSS  |Notes                     | Patched    |
+|----------------|--------------------|----------|-------|--------------------------|------------|
+| CVE-2021-38445 | OpenDDS            | CWE-130  | [H/M/H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RL:O/RC:C/CR:M/AR:H) | Failed assertion          | [>= 3.18.1](https://github.com/objectcomputing/OpenDDS/releases/tag/DDS-3.18.1) |
+| CVE-2021-38447 | OpenDDS            | CWE-405  | [H/H/H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RL:O/RC:C/CR:M/AR:H) |Resource exhaustion       | [>= 3.18.1](https://github.com/objectcomputing/OpenDDS/releases/tag/DDS-3.18.1) |
+| CVE-2021-38435 | ConnextDDS         | CWE-131  | [H/H/H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RL:O/RC:C/CR:M/AR:H) |Seg.fault via network     | [>= 6.1.0](https://community.rti.com/kb/ics-cert-security-notice-ics-vu-575352-vu770071) |
+| CVE-2021-38423 | GurumDDS           | CWE-131  | [H/H/C](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RC:C/CR:M/AR:H) |Seg.fault via network     | N/A |
+| CVE-2021-38439 | GurumDDS           | CWE-122  | [H/H/C](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RC:C/CR:M/AR:H) |Heap-overflow via network | N/A |
+| CVE-2021-38437 | GurumDDS           | CWE-1104 | [H/M/H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:U/RC:C/CR:M/AR:H) |Unmaintained XML lib.     | N/A |
+| CVE-2021-38441 | CycloneDDS         | CWE-123  | [M/M/M](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H/E:U/RL:O/RC:C/CR:M/AR:H)     |Heap-write in XML parser  | master |
+| CVE-2021-38443 | CycloneDDS         | CWE-228  | [M/M/M](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H/E:U/RL:O/RC:C/CR:M/AR:H)     |8-bytes heap-write in XML parser        | master |
+| CVE-2021-38427 | RTI ConnextDDS     | CWE-121  | [M/M/M](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H/E:U/RL:O/RC:C/CR:H/AR:H) |Stack overflow in XML parser | [>= 6.1.0](https://community.rti.com/kb/ics-cert-security-notice-ics-vu-575352-vu770071) |
+| CVE-2021-38433 | RTI ConnextDDS     | CWE-121  | [M/M/M](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:H/E:U/RL:O/RC:C/CR:H/AR:H) |Stack overflow in XML parser | [>= 6.1.0](https://community.rti.com/kb/ics-cert-security-notice-ics-vu-575352-vu770071) |
 
 The following table refers to the spec-level vulnerability.
 
-| CVE ID            | Scope              | CWE      | Notes                     |
-|----------------|--------------------|----------|---------------------------|
-| Not applicable | OMG DDSI-RTPS 2.5  | CWE-406  | WIP spec. revision |
-| CVE-2021-38487 | ConnextDDS     | CWE-406  | [Mitigation patch in >= 6.1.0](https://community.rti.com/kb/ics-cert-security-notice-ics-vu-575352-vu770071) |
-| CVE-2021-38429 | OpenDDS        | CWE-406  | [Mitigation patch in >= 3.18.1](https://github.com/objectcomputing/OpenDDS/releases/tag/DDS-3.18.1) |
-| CVE-2021-38425      | eProsima Fast-DDS  | CWE-406  | [WIP mitigation](https://github.com/eProsima/Fast-DDS/issues/2267)     |
-| Requested      | Twin Oaks CoreDX   | CWE-406  | WIP mitigation            |
+| CVE ID            | Scope           | CWE      | CVSS | Patched in                |
+|----------------|--------------------|----------|------|---------------------------|
+| Not applicable | OMG DDSI-RTPS 2.5  | CWE-406  | -    | WIP spec. revision |
+| CVE-2021-38487 | ConnextDDS         | CWE-406  | [H/H/H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RL:O/RC:C/CR:L/AR:H) | [Mitigation patch in >= 6.1.0](https://community.rti.com/kb/ics-cert-security-notice-ics-vu-575352-vu770071) |
+| CVE-2021-38429 | OpenDDS            | CWE-406  | [H/H/H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RL:O/RC:C/CR:L/AR:H) | [Mitigation patch in >= 3.18.1](https://github.com/objectcomputing/OpenDDS/releases/tag/DDS-3.18.1) |
+| CVE-2021-38425 | eProsima Fast-DDS  | CWE-406  | [H/H/H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RL:T/RC:C/CR:L/AR:H) | [WIP mitigation in master](https://github.com/eProsima/Fast-DDS/issues/2267)     |
+| Requested      | Twin Oaks CoreDX   | CWE-406  | [H/H/H](https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:H/E:P/RL:O/RC:C/CR:L/AR:H) | > 5.9.1            |
 
 ## Talks and Publications
 
